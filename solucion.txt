@@ -1,0 +1,74 @@
+eje 1:
+
+SELECT * FROM `flights`;
+
+
+ eje 2:
+
+SELECT
+    `Origin`,
+    `ArrTime`,
+    `ArrDelay`
+FROM
+    flights
+WHERE
+    1
+GROUP BY
+    `Origin` ASC
+ORDER BY
+    `Origin` ASC;
+
+
+ eje 3:
+
+SELECT
+    `Origin`,
+    `colYear`,
+    `colMonth`,
+    `ArrTime`
+FROM
+    flights
+WHERE
+    1
+
+ORDER BY
+    `Origin` ASC,
+    `colYear`,
+    `colMonth`;
+
+ eje 4:
+
+SELECT usairports.City,flights.colYear,flights.colMonth,flights.ArrTime FROM flights
+LEFT JOIN usairports
+ON usairports.IATA = flights.Origin
+GROUP BY 
+City ASC,
+flights.colYear,
+flights.colMonth
+
+
+ eje 5:
+SELECT flights.UniqueCarrier,flights.colYear,flights.colMonth,flights.Cancelled FROM `flights`
+WHERE flights.Cancelled != 0
+GROUP BY
+flights.UniqueCarrier
+ORDER BY
+flights.Cancelled DESC;
+
+ eje 6:
+
+SELECT DISTINCT flights.TailNum,flights.Distance  FROM  flights 
+WHERE flights.TailNum 
+ORDER BY 
+
+flights.Distance DESC
+LIMIT 10;
+
+ eje 7:
+
+SELECT DISTINCT flights.UniqueCarrier,flights.ArrDelay  FROM  flights 
+WHERE flights.ArrDelay > 10
+ORDER BY 
+
+flights.ArrDelay DESC
+LIMIT 10;
