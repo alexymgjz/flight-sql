@@ -1,74 +1,59 @@
 eje 1:
 
-SELECT * FROM `flights`;
+SELECT COUNT(flights.flightID) FROM `flights` WHERE 1
 
 
  eje 2:
 
-SELECT
-    `Origin`,
-    `ArrTime`,
-    `ArrDelay`
-FROM
-    flights
-WHERE
-    1
-GROUP BY
-    `Origin` ASC
-ORDER BY
-    `Origin` ASC;
+SELECT flights.Origin,avg(flights.ArrDelay),avg(flights.`DepDelay`)
+FROM flights GROUP by flights.Origin
 
 
  eje 3:
 
-SELECT
-    `Origin`,
-    `colYear`,
-    `colMonth`,
-    `ArrTime`
-FROM
-    flights
-WHERE
-    1
+SELECT Origin,colYear,colMonth,avg(ArrDelay)
+FROM flights
+GROUP by Origin,colYear,colMonth
+ORDER by Origin,colYear,colMonth
 
-ORDER BY
-    `Origin` ASC,
-    `colYear`,
-    `colMonth`;
 
  eje 4:
 
-SELECT usairports.City,flights.colYear,flights.colMonth,flights.ArrTime FROM flights
-LEFT JOIN usairports
-ON usairports.IATA = flights.Origin
-GROUP BY 
-City ASC,
-flights.colYear,
-flights.colMonth
+SELECT City, colYear, colMonth, AVG(ArrDelay) 
+FROM Flights  
+LEFT JOIN USAirports 
+ON Origin = USAirports.IATA 
+GROUP BY City, colYear, colMonth
+ORDER BY City, colYear, colMonth
 
 
  eje 5:
-SELECT flights.UniqueCarrier,flights.colYear,flights.colMonth,flights.Cancelled FROM `flights`
-WHERE flights.Cancelled != 0
-GROUP BY
-flights.UniqueCarrier
-ORDER BY
-flights.Cancelled DESC;
+SELECT flights.UniqueCarrier,flights.colYear,flights.colMonth,sum(flights.Cancelled) FROM `flights`
+GROUP BY cancelled , colMonth , colYear , UniqueCarrier 
 
- eje 6:
+HAVING sum(flights.Cancelled) != 0
+ORDER BY flights.Cancelled DESC
 
-SELECT DISTINCT flights.TailNum,flights.Distance  FROM  flights 
-WHERE flights.TailNum 
+ 
+eje 6:
+
+SELECT DISTINCT flights.TailNum,sum(flights.Distance)  FROM  flights 
+WHERE flights.TailNum IS NOT null
+GROUP BY 
+ flights.TailNum 
 ORDER BY 
+sum(flights.Distance) DESC
+LIMIT 10
 
-flights.Distance DESC
-LIMIT 10;
 
  eje 7:
 
-SELECT DISTINCT flights.UniqueCarrier,flights.ArrDelay  FROM  flights 
-WHERE flights.ArrDelay > 10
-ORDER BY 
+SELECT DISTINCT flights.UniqueCarrier,AVG(flights.ArrDelay)  FROM  flights 
 
-flights.ArrDelay DESC
-LIMIT 10;
+GROUP BY
+flights.UniqueCarrier
+
+HAVING AVG(flights.ArrDelay) > 10 
+ORDER BY 
+AVG(flights.ArrDelay) DESC
+LIMIT 10
